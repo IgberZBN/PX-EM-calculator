@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="assets/style/css/style.css">
+  <title>Calculadora de PX e EM</title>
+</head>
+
+<body>
+  <main class="main">
+    <header class="main-header">
+      <h1 class="main-header-title">Converter PX para EM</h1>
+    </header>
+    <form class="main-form">
+      <div class="content">
+        <div class="content-input-default">
+          <label for="inDefault">Tamanho padrão em <b>PX</b>:</label>
+          <input id="inDefault" type="number" value="16" step="0.0001"><span></span>
+        </div>
+        <div class="content-input-px">
+          <label for="inPxEm">Converter <b>PX</b> para <b>EM</b>:</label>
+          <input id="inPxEm" type="number" step="0.0001"><span></span>
+        </div>
+        <div class="content-input-em">
+          <label for="inEmPx">Converter <b>EM</b> para <b>PX</b>:</label>
+          <input id="inEmPx" type="number" step="0.0001"><span></span>
+        </div>
+      </div>
+      <button class="btn" type="submit">
+        <img class="icon" src="assets/img/convert.svg">
+        <span class="text">Converter</span>
+      </button>
+    </form>
+  </main>
+  <script src="assets/js/main.js"></script>
+</body>
+
+</html>

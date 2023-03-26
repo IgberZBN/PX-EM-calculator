@@ -1,0 +1,100 @@
+// ! variables
+$dark: #121212
+$white: white
+$white-light: rgba(255, 255, 255, .1)
+$borderR: 0.4375em
+$green: #00C896
+$green-dark: #00a87e
+$default: 1em
+
+// ! mixins
+@mixin centralize
+  position: absolute
+  top: 50%
+  left: 50%
+  transform: translate(-50%,-50%)
+
+@mixin after($text)
+  span::after
+    content: $text
+    font-size: 1.3em
+    margin-left: .3em
+
+// ! reset
+*
+  margin: 0
+  padding: 0
+  box-sizing: border-box
+
+body
+  background: $dark
+  color: $white
+  font-family: sans-serif
+
+label
+  display: block
+  margin-bottom: .5em
+
+input, button
+  border: none
+
+input
+  padding: .5em
+  font-size: $default
+  border-radius: $borderR
+  &::-webkit-outer-spin-button, &::-webkit-inner-spin-button
+    -webkit-appearance: none
+    margin: 0
+
+// ! styles
+.main
+  @include centralize
+  width: min(37.5em, 95%)
+  background-color: $white-light
+  padding: $default
+  border-radius: $borderR
+
+  &-header
+    text-align: center
+    padding: .5em
+    margin-bottom: $default
+    h1
+      font-size: clamp(1.5em, 5vw, 2em)
+
+  .content
+    display: grid
+    grid-template: "area1 area2" "area3 area4" 1fr
+    gap: $default
+
+    @media (max-width: 590px)
+      grid-template: "area1" 1fr "area3" 1fr "area4" 1fr
+      justify-content: center
+
+    &-input
+      &-default
+        grid-area: area1
+        @include after("px")
+
+      &-px
+        grid-area: area3
+        @include after("px")
+
+      &-em
+        grid-area: area4
+        @include after("em")
+
+  .btn
+    margin-top: $default
+    padding: .7em
+    border-radius: $borderR
+    background-color: $green
+    color: $white
+    font-size: $default
+    &:active
+      background-color: $green-dark
+
+  .icon, .text
+    vertical-align: middle
+
+  .icon
+    width: 1.5em
