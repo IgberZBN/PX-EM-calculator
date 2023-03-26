@@ -1,58 +1,68 @@
-const form = document.querySelector("form");
-const inputs = document.querySelectorAll(".inValue");
-const resp = document.querySelector(".resp");
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  calcule();
-});
+class Converter {
+  constructor(form, inputs, resp) {
+    this.form = document.querySelector(form);
+    this.inputs = this.form.querySelectorAll(inputs);
+    this.resp = this.form.querySelector(resp);
 
-inputs.forEach((element) => {
-  element.addEventListener("click", () => {
-    const id = getId(element);
-    clearInput(id);
-  });
-});
+    this.inPxEm = this.form.querySelector("#inPxEm");
+    this.inEmPx = this.form.querySelector("#inEmPx");
+    this.inDefault = this.form.querySelector("#inDefault");
+  }
 
-function getId(element) {
-  const id = element.id;
-  return id;
-}
+  addSubmitEvent() {
+    this.form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      this.calculate();
+    });
+  }
 
-function clearInput(id) {
-  id === "inPxEm"
-    ? (document.querySelector("#inEmPx").value = "")
-    : (document.querySelector("#inPxEm").value = "");
-}
+  calculate() {
+    const valueDefaultPx = Number(this.inDefault.value);
+    this.verify(valueDefaultPx);
+    this.getValue(valueDefaultPx);
+  }
 
-function calcule() {
-  const valueDefault = Number(document.querySelector("#inDefault").value);
-  check(valueDefault);
-  getValue(valueDefault);
-}
+  verify(valueD) {
+    if (!valueD || (!this.inEmPx.value && !this.inPxEm.value)) {
+      throw "Please, insert a valid value.";
+    }
+  }
 
-function getValue(valueDefault) {
-  const num = document.querySelector("#inPxEm").value
-    ? calculeEm(Number(document.querySelector("#inPxEm").value), valueDefault)
-    : calculePx(Number(document.querySelector("#inEmPx").value), valueDefault);
-  resp.value = num;
-}
+  getValue(valueD) {
+    const result = this.inPxEm.value
+      ? this.calculateEm(Number(this.inPxEm.value), valueD)
+      : this.calculatePx(Number(this.inEmPx.value), valueD);
 
-function check(valueDefault) {
-  if (
-    !valueDefault ||
-    (!document.querySelector("#inEmPx").value &&
-      !document.querySelector("#inPxEm").value)
-  ) {
-    throw "Insira um valor valido";
+    this.displayResult(result);
+  }
+
+  calculateEm(inValue, valueD) {
+    const result = `${inValue / valueD}em`;
+    return result;
+  }
+  calculatePx(inValue, valueD) {
+    const result = `${inValue * valueD}px`;
+    return result;
+  }
+
+  displayResult(result) {
+    this.resp.value = result;
+  }
+
+  addClickEvent() {
+    this.inputs.forEach((element) => {
+      element.addEventListener("click", () => {
+        const id = element.id;
+        this.clearInput(id);
+      });
+    });
+  }
+
+  clearInput(id) {
+    id === "inPxEm" ? (this.inEmPx.value = "") : (this.inPxEm.value = "");
   }
 }
 
-function calculeEm(value, valueD) {
-  const resultado = `${value / valueD}em`;
-  return resultado;
-}
-
-function calculePx(value, valueD) {
-  const resultado = `${value * valueD}px`;
-  return resultado;
-}
+const calculator = new Converter("form", ".inValue", ".resp");
+calculator.addClickEvent();
+calculator.addSubmitEvent();
